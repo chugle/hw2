@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+
+{{=SQLTABLE(rows,
+     headers={'lianxi.bianhao':'编号','timu.wenti':'题目','zuoti.zuoda':'你的答案','timu.daan':'标准答案'},
+     truncate=100
+)
+}}
+<br>
+得分:{{=cj}}
