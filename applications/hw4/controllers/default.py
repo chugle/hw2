@@ -44,22 +44,31 @@ def course_list():
 
 @auth.requires_login()
 def study():
+
     keshi_id=request.args[0]
     record=db.keshi[keshi_id]
     kecheng_id=record.kecheng
-    curd=Crud(db)
-    lianxi_url=A('练习',_href=URL('lianxi/%s'%kecheng_id))
-    zuoye_url=A('作业',_href=URL('zuoye/%s'%kecheng_id))
-    defen_url=A('得分',_href=URL('defen/%s'%kecheng_id))
+    haszuoye=record.haszuoye
+    kecheng=db.course[kecheng_id]
+    title=kecheng.title
+    neirong=kecheng.neirong
+    kejian=kecheng.kejian
+    a=A('课件下载',_href=URL('download',args=kejian))
+    lianxi_url=A('练习',_href=URL('lianxi/%s'%keshi_id))
+    if haszuoye:
+        zuoye_url=A('作业',_href=URL('zuoye/%s'%keshi_id))
+    else:
+        zuoye_url=BR()
+    defen_url=A('得分',_href=URL('defen/%s'%keshi_id))
     return dict(keshi_id=keshi_id,lianxi_url=lianxi_url,zuoye_url=zuoye_url,defen_url=defen_url,
-                form=curd.read(db.course,kecheng_id))
+               title=title,neirong=neirong,kejian=kejian,a=a)
 
 @auth.requires_login()  
 def defen():
     zuozhe=auth.user_id
     keshi_id=request.args[0]
     rows=db((db.zuoti.zuozhe==zuozhe)&(db.lianxi.keshi==keshi_id)).select(    
-                                                                       db.lianxi.bianhao,db.timu.wenti,
+                                                                       db.lianxi.bianhao,
                                                                        db.zuoti.zuoda,
                                                                        db.timu.daan,orderby=db.lianxi.bianhao,
                                                                        join=db.lianxi.on(
@@ -76,7 +85,7 @@ def defen():
         cj=int(right*100/n)
     if not db.defen((db.defen.keshi==keshi_id)&(db.defen.xuesheng==zuozhe)):
         db.defen.insert(keshi=keshi_id,xuesheng=auth.user_id,chengji=cj)
-    return dict(rows=rows,cj=cj)
+    return dict(rows=rows,cj=cj,keshi_id=keshi_id)
 
 @auth.requires_login()
 def zuoye():
@@ -84,14 +93,14 @@ def zuoye():
     keshi_id=request.args[0]
     crud=Crud(db)
     if db.zuoye(db.zuoye.zuozhe==zuozhe):
-        db.zuoye.defen.writable=False
+        #db.zuoye.defen.writable=False
         zuoye_id=db.zuoye(db.zuoye.zuozhe==zuozhe).id
         form=crud.update(db.zuoye,zuoye_id,deletable=False,next=request.url)
         db.zuoye.defen.writable=True
     else:
         db.zuoye.zuozhe.default=zuozhe
         db.zuoye.keshi.default=keshi_id
-        db.zuoye.defen.writable=False
+        #db.zuoye.defen.writable=False
         form=crud.create(db.zuoye,next=request.url)
       #  db.zuoye.zuozhe.default=None
         db.zuoye.keshi.default=None
@@ -110,7 +119,7 @@ def lianxi():
                   keepvalues=True)
     form.append(BR())
     for l in lianxi:      
-        form.append(db.timu(l.timu).wenti)
+        form.append(XML(db.timu(l.timu).wenti))
         form.append(INPUT(_name=l.id))
         form.append(BR())
     form.append(INPUT(_type='submit',_value='提交'))

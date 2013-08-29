@@ -1,0 +1,23 @@
+[2013-07-15 16:11:28] START
+[2013-07-15 16:21:30] EDIT image/models/db.py: -10
+[2013-07-15 16:23:29] EDIT image/models/db.py: 0
+[2013-07-15 16:47:34] EDIT image/models/db.py: 0
+[2013-07-16 08:19:54] EDIT image/controllers/default.py: -5
+[2013-07-16 08:20:06] EDIT image/controllers/default.py: -1
+[2013-07-16 08:26:13] EDIT image/controllers/default.py: 0
+[2013-07-16 08:26:37] EDIT image/controllers/default.py: 0
+[2013-07-16 08:27:51] DELETE image/views/default/index.html: -32
+[2013-07-16 08:30:05] CREATE default/index.html: 0
+[2013-07-16 08:30:10] EDIT image/views/default/index.html: 4
+[2013-07-16 08:30:56] EDIT image/controllers/default.py: -1
+[2013-07-16 08:36:37] EDIT image/controllers/default.py: 13
+[2013-07-16 08:49:01] CREATE default/show.html: 0
+[2013-07-16 08:49:07] EDIT image/views/default/show.html: 13
+[2013-07-16 08:50:10] EDIT image/views/default/show.html: 0
+[2013-07-16 10:03:20] EDIT image/models/db.py: 3
+[2013-07-16 10:05:47] EDIT image/controllers/default.py: 0
+[2013-07-16 10:08:47] EDIT image/controllers/default.py: 12
+[2013-07-16 10:21:47] EDIT image/controllers/default.py: 4
+[2013-07-16 10:22:01] CREATE default/manage.html: 0
+[2013-07-16 10:22:19] EDIT image/views/default/manage.html: 0
+[2013-07-16 10:23:17] EDIT image/views/default/manage.html: 0
