@@ -144,7 +144,7 @@ db.define_table('wangpan',
                 Field('yonghu',db.auth_user,readable=False,writable=False),
                 Field('daxiao','integer'),
                 Field('leixin'),
-                Field('wenjian','upload',autodelete=True,requires=IS_LENGTH(maxsize=MAX_UPLOAD_FILESIZE)))
+            Field('wenjian','upload',autodelete=True,requires=IS_LENGTH(maxsize=MAX_UPLOAD_FILESIZE)))
 
 db.define_table('defen',Field('keshi',db.keshi,label='课时'),
                 Field('xuesheng',db.auth_user,label='学生'),
