@@ -67,7 +67,7 @@ mail.settings.login = 'username:password'
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
-auth.settings.actions_disabled = []
+auth.settings.actions_disabled = ['profile']
 ## if you need to use OpenID, Facebook, MySpace, Twitter, Linkedin, etc.
 ## register with janrain.com, write your domain:api_key in private/janrain.key
 from gluon.contrib.login_methods.rpx_account import use_janrain
@@ -138,7 +138,7 @@ db.define_table('zuoye',
                 Field('keshi',db.keshi,writable=False,widget=SQLFORM.widgets.string.widget,label='课时'),
                 Field('zuozhe',db.auth_user,writable=False,widget=SQLFORM.widgets.string.widget,label='作者'),
                 Field('wenjian','upload',autodelete=True,requires=IS_LENGTH(maxsize=MAX_UPLOAD_FILESIZE),label='文件'),
-                Field('defen','integer',writable=False,label='得分'))
+                Field('defen','integer',writable=True,label='得分'))
 
 db.define_table('wangpan',
                 Field('yonghu',db.auth_user,readable=False,writable=False),

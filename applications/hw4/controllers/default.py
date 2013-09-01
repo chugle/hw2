@@ -92,15 +92,15 @@ def zuoye():
     zuozhe=auth.user_id
     keshi_id=request.args[0]
     crud=Crud(db)
-    if db.zuoye(db.zuoye.zuozhe==zuozhe):
-        #db.zuoye.defen.writable=False
-        zuoye_id=db.zuoye(db.zuoye.zuozhe==zuozhe).id
+    if db.zuoye((db.zuoye.zuozhe==zuozhe)&(db.zuoye.keshi==keshi_id)):
+        db.zuoye.defen.writable=False
+        zuoye_id=db.zuoye((db.zuoye.zuozhe==zuozhe)&(db.zuoye.keshi==keshi_id)).id
         form=crud.update(db.zuoye,zuoye_id,deletable=False,next=request.url)
         db.zuoye.defen.writable=True
     else:
         db.zuoye.zuozhe.default=zuozhe
         db.zuoye.keshi.default=keshi_id
-        #db.zuoye.defen.writable=False
+        db.zuoye.defen.writable=False
         form=crud.create(db.zuoye,next=request.url)
       #  db.zuoye.zuozhe.default=None
         db.zuoye.keshi.default=None

@@ -24,8 +24,11 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
+    (T('Home'), False, URL('default', 'index'), []),('作业提交系统',False,URL('default','course_list'),[])
 ]
+
+if auth.has_membership(role='teacher'):
+    response.menu = [ (T('Home'), False, URL('teacher', 'index'), [])]   
 
 DEVELOPMENT_MENU = False
 
