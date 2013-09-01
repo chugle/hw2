@@ -1,5 +1,5 @@
 (dp1
-S'defen'
+S'keshi'
 p2
 (dp3
 S'length'
@@ -10,17 +10,17 @@ p5
 I00
 sS'sortable'
 p6
-I5
+I2
 sS'sql'
 p7
-S'INTEGER'
+S'INTEGER REFERENCES keshi (id) ON DELETE CASCADE'
 p8
 sS'notnull'
 p9
 I00
 sS'type'
 p10
-S'integer'
+S'reference keshi'
 p11
 ssS'zuozhe'
 p12
@@ -39,7 +39,7 @@ I00
 sg10
 S'reference auth_user'
 p15
-ssS'keshi'
+ssS'wenjian'
 p16
 (dp17
 g4
@@ -47,14 +47,14 @@ I512
 sg5
 I00
 sg6
-I2
+I4
 sg7
-S'INTEGER REFERENCES keshi (id) ON DELETE CASCADE'
+S'CHAR(512)'
 p18
 sg9
 I00
 sg10
-S'reference keshi'
+S'upload'
 p19
 ssS'id'
 p20
@@ -71,22 +71,23 @@ p22
 sg9
 I00
 sg10
-g20
-ssS'wenjian'
+S'id'
 p23
-(dp24
+ssS'defen'
+p24
+(dp25
 g4
 I512
 sg5
 I00
 sg6
-I4
+I5
 sg7
 S'CHAR(512)'
-p25
+p26
 sg9
 I00
 sg10
-S'upload'
-p26
+S'string'
+p27
 ss.

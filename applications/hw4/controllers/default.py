@@ -39,6 +39,7 @@ def course_list():
         nianji=int(y)-2000-int(jie)+3
         xuenian=str(int(y)-2000)
     rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==nianji)).select(
+                                                                                                  orderby=db.keshi.keshi,
                                                                                                   left=db.keshi.on(db.keshi.kecheng==db.course.id))
     return dict(rows=rows)
 

@@ -307,6 +307,7 @@
 'You visited the url %s': 'You visited the url %s',
 'Zuotis': 'Zuotis',
 'Zuoyes': 'Zuoyes',
+'Zuoyes for keshi': 'Zuoyes for keshi',
 '传送': '传送',
 '作者': '作者',
 '内容': '内容',

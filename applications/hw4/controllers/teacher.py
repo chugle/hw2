@@ -4,14 +4,11 @@ import datetime
 now=datetime.date.today()
 year=now.year
 month=now.month
-jie = auth.user.jie   
 if int(month) in range(2,8):
     xueqi=2
-    nianji=int(year)-2000-int(jie)+4
     xuenian=str(int(year)-1-2000)
 else:
     xueqi=1
-    nianji=int(year)-2000-int(jie)+3
     xuenian=str(int(year)-2000)
 
 
@@ -32,7 +29,7 @@ def course_manage():
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
 def keshi_manage():
     form = SQLFORM.smartgrid(db.keshi,
-                             constraints={db.keshi:(db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)},
+                             constraints={'keshi':(db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)},
                              links=[dict(header='',body=lambda row:A('批改作业',_href=URL('pigai',args=row.id)))])
     return dict(form=form)   
 
@@ -80,7 +77,26 @@ def pigai():
         return dict(form=form,vals=vals)
     else:
         return dict(error=H3('没有可以批改的作业'))
+
+@auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
+def grade1():
+    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==1)).select(
+                                                                                          orderby=db.keshi.keshi,
+                                                                                          left=db.keshi.on(db.keshi.kecheng==db.course.id))
+    return dict(rows=rows)
     
+
+@auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
+def grade2():
+    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==2)).select(
+                                                                                          orderby=db.keshi.keshi,
+                                                                                          left=db.keshi.on(db.keshi.kecheng==db.course.id))
+    return dict(rows=rows)
+ 
+'''
+grade1,grade2，连接每个课程学习模块，学习模块里面有练习讲解，作业情况统计（交作业统计，得分统计）
+用ajax实现统计和讲解部分显示答案
+'''  
 def download():
     """
     allows downloading of uploaded files

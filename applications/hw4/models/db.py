@@ -138,7 +138,7 @@ db.define_table('zuoye',
                 Field('keshi',db.keshi,writable=False,widget=SQLFORM.widgets.string.widget,label='课时'),
                 Field('zuozhe',db.auth_user,writable=False,widget=SQLFORM.widgets.string.widget,label='作者'),
                 Field('wenjian','upload',autodelete=True,requires=IS_LENGTH(maxsize=MAX_UPLOAD_FILESIZE),label='文件'),
-                Field('defen','integer',writable=True,label='得分'))
+                Field('defen',writable=True,label='得分',requires=IS_IN_SET(['a','b','c','d','e'])))
 
 db.define_table('wangpan',
                 Field('yonghu',db.auth_user,readable=False,writable=False),
