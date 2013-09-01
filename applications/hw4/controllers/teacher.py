@@ -1,5 +1,20 @@
 # coding: utf8
 # 尝试
+import datetime
+now=datetime.date.today()
+year=now.year
+month=now.month
+jie = auth.user.jie   
+if int(month) in range(2,8):
+    xueqi=2
+    nianji=int(year)-2000-int(jie)+4
+    xuenian=str(int(year)-1-2000)
+else:
+    xueqi=1
+    nianji=int(year)-2000-int(jie)+3
+    xuenian=str(int(year)-2000)
+
+
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
 def index(): return dict()
 
@@ -17,6 +32,7 @@ def course_manage():
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
 def keshi_manage():
     form = SQLFORM.smartgrid(db.keshi,
+                             constraints={db.keshi:(db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)},
                              links=[dict(header='',body=lambda row:A('批改作业',_href=URL('pigai',args=row.id)))])
     return dict(form=form)   
 

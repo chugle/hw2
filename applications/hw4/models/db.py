@@ -105,7 +105,7 @@ db.define_table('course',
                 Field('kejian','upload',
                       uploadfolder=os.path.join(request.folder,'uploads/kejian'),
                       autodelete=True,label='课件'),
-                format='%(nianji)s%(xueqi)s_%(title)s')
+                format='%(nianji)s-%(xueqi)s:%(title)s')
 
 db.define_table('keshi',
                 Field('xuenian',requires=IS_MATCH('\d\d'),label='学年'),
@@ -114,7 +114,7 @@ db.define_table('keshi',
                 Field('keshi',requires=IS_NOT_EMPTY(),label='课时'),
                 Field('kecheng',db.course,label='课程'),
                 Field('haszuoye','boolean',default=True),
-                format='%(xuenian)s_%(xueqi)s+%(nianji)s_%(keshi)s')
+                format='%(xuenian)s-%(xueqi)s.%(nianji)s:%(keshi)s')
 
 db.define_table('timu',
                 Field('course',db.course,label='课程'),
