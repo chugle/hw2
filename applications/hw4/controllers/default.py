@@ -32,11 +32,11 @@ def course_list():
     jie = auth.user.jie   
     if int(m) in range(2,8):
         xueqi=2
-        nianji=int(y)-2000-int(jie)+4
+        nianji=int(y)-2000-int(jie)+3
         xuenian=str(int(y)-1-2000)
     else:
         xueqi=1
-        nianji=int(y)-2000-int(jie)+3
+        nianji=int(y)-2000-int(jie)+4
         xuenian=str(int(y)-2000)
     rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==nianji)).select(
                                                                                                   orderby=db.keshi.keshi,

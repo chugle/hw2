@@ -288,6 +288,7 @@
 'Rows in table': '表行',
 'Rows selected': '行选择',
 'rules are not defined': 'rules are not defined',
+'Run tests in this file': 'Run tests in this file',
 "Run tests in this file (to run all files, you may also use the button labelled 'test')": "Run tests in this file (to run all files, you may also use the button labelled 'test')",
 'Running on %s': 'Running on %s',
 'Save': 'Save',
