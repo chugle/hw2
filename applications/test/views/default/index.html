@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+{{block head}}
+<script charset="utf-8" src={{=URL('static','editor/kindeditor.js')}}></script>
+<script charset="utf-8" src={{=URL('static','editor/lang/zh_CN.js')}}></script>
+<script>
+	KindEditor.ready(function(K) {
+		window.editor = K.create('#textarea_id', {
+			uploadJson : '/test/default/upload_json.xml',
+			fileManagerJson : '/test/default/file_manager_json.xml',
+			allowFileManager : true
+		});
+	});
+	var options = {
+		cssPath : '/css/index.css',
+		filterMode : true
+	};
+	var editor = K.create('textarea[name="content"]', options); 
+</script>
+
+{{=BEAUTIFY(response._vars)}}
+<textarea id="textarea_id" name="content" style="width:700px;height:300px;">
+&lt;strong&gt;HTML内容&lt;/strong&gt;
+</textarea>

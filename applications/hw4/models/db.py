@@ -50,9 +50,9 @@ auth.define_tables()
 db.auth_user.first_name.label='姓名'
 db.auth_user.last_name.label='学号'
 db.auth_user.first_name.requires=IS_NOT_EMPTY()
-db.auth_user.last_name.requires=[IS_NOT_EMPTY(),IS_MATCH('\d\d',error_message='two number:like 11,02')]
-db.auth_user.jie.requires=[IS_NOT_EMPTY(),IS_MATCH('\d\d',error_message='two number:like 11,02')]
-db.auth_user.banji.requires=[IS_NOT_EMPTY(),IS_MATCH('\d\d',error_message='two number:like 11,02')]
+db.auth_user.last_name.requires=[IS_NOT_EMPTY(),IS_MATCH('^\d\d$',error_message='two number:like 11,02')]
+db.auth_user.jie.requires=[IS_NOT_EMPTY(),IS_MATCH('^\d\d$',error_message='two number:like 11,02')]
+db.auth_user.banji.requires=[IS_NOT_EMPTY(),IS_MATCH('^\d\d$',error_message='two number:like 11,02')]
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=False, signature=False)
@@ -114,6 +114,7 @@ db.define_table('keshi',
                 Field('keshi',requires=IS_NOT_EMPTY(),label='课时'),
                 Field('kecheng',db.course,label='课程'),
                 Field('haszuoye','boolean',default=True),
+                Field('showed','boolean'),
                 format='%(xuenian)s-%(xueqi)s.%(nianji)s:%(keshi)s')
 
 db.define_table('timu',
@@ -144,7 +145,7 @@ db.define_table('wangpan',
                 Field('yonghu',db.auth_user,readable=False,writable=False),
                 Field('daxiao','integer'),
                 Field('leixin'),
-            Field('wenjian','upload',autodelete=True,requires=IS_LENGTH(maxsize=MAX_UPLOAD_FILESIZE)))
+                Field('wenjian','upload',autodelete=True,requires=IS_LENGTH(maxsize=MAX_UPLOAD_FILESIZE)))
 
 db.define_table('defen',Field('keshi',db.keshi,label='课时'),
                 Field('xuesheng',db.auth_user,label='学生'),

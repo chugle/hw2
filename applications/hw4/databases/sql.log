@@ -134,3 +134,24 @@ timestamp: 2013-08-19T20:42:26.625000
 ALTER TABLE keshi ADD nianji CHAR(512);
 timestamp: 2013-08-29T20:12:25.687000
 ALTER TABLE keshi ADD haszuoye CHAR(1);
+timestamp: 2013-09-03T08:22:06.196000
+CREATE TABLE plugin_elrte_widget_image(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image CHAR(512)
+);
+success!
+timestamp: 2013-09-03T08:23:23.446000
+CREATE TABLE plugin_elrte_widget_file(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    myfile CHAR(512)
+);
+success!
+timestamp: 2013-09-03T09:46:17.539000
+CREATE TABLE plugin_uploadify_widget(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    image CHAR(512),
+    texts CHAR(512)
+);
+success!

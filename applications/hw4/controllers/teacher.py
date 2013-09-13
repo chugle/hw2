@@ -88,11 +88,54 @@ def grade1():
 
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
 def grade2():
-    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==2)).select(
-                                                                                          orderby=db.keshi.keshi,
-                                                                                          left=db.keshi.on(db.keshi.kecheng==db.course.id))
-    return dict(rows=rows)
+    lastxs=db().select(db.zuoye.zuozhe).last().zuozhe
+    banji=db.auth_user[lastxs].banji
+    if len(request.args):
+        banji=request.args[0]
+    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==2)).select(left=db.keshi.on(db.keshi.kecheng==db.course.id))
+    return dict(rows=rows,banji=banji)
+
+@auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
+def grade1():
+    lastxs=db().select(db.zuoye.zuozhe).last().zuozhe
+    banji=db.auth_user[lastxs].banji
+    if len(request.args):
+        banji=request.args[0]
+    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==1)).select(left=db.keshi.on(db.keshi.kecheng==db.course.id))
+    return dict(rows=rows,banji=banji)
+
+
+def homeworks2():
+    keshi_id=request.args[0]
+    if month in range(2,8):
+        jie2=int(year)+1-2000
+    else:
+        jie2=int(year)+2-2000
+    banji=request.args[1]
+    
+    rows=db((db.auth_user.banji==banji)&
+                (db.auth_user.jie==jie2)).select(
+                                    db.auth_user.last_name,
+                                    db.auth_user.first_name,
+                                    db.zuoye.ALL,left=db.zuoye.on((db.auth_user.id==db.zuoye.zuozhe)&(db.zuoye.keshi==keshi_id)),
+                                    orderby=db.auth_user.last_name)
+    return dict(rows=rows,banji=banji)
  
+def homeworks1():
+    keshi_id=request.args[0]
+    if month in range(2,8):
+        jie1=int(year)+2-2000
+    else:
+        jie1=int(year)+3-2000
+    banji=request.args[1]
+    
+    rows=db((db.auth_user.banji==banji)&
+                (db.auth_user.jie==jie1)).select(
+                                    db.auth_user.last_name,
+                                    db.auth_user.first_name,
+                                    db.zuoye.ALL,left=db.zuoye.on((db.auth_user.id==db.zuoye.zuozhe)&(db.zuoye.keshi==keshi_id)),
+                                    orderby=db.auth_user.last_name)
+    return dict(rows=rows,banji=banji)
 '''
 grade1,grade2，连接每个课程学习模块，学习模块里面有练习讲解，作业情况统计（交作业统计，得分统计）
 用ajax实现统计和讲解部分显示答案

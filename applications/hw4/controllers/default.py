@@ -33,13 +33,13 @@ def course_list():
     if int(m) in range(2,8):
         xueqi=2
         nianji=int(y)-2000-int(jie)+3
+
         xuenian=str(int(y)-1-2000)
     else:
         xueqi=1
         nianji=int(y)-2000-int(jie)+4
         xuenian=str(int(y)-2000)
-    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==nianji)).select(
-                                                                                                  orderby=db.keshi.keshi,
+    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==nianji)&(db.keshi.showed==True)).select(
                                                                                                   left=db.keshi.on(db.keshi.kecheng==db.course.id))
     return dict(rows=rows)
 
@@ -54,7 +54,9 @@ def study():
     title=kecheng.title
     neirong=kecheng.neirong
     kejian=kecheng.kejian
-    a=A('课件下载',_href=URL('download',args=kejian))
+    
+    
+    rows=db(db.course.id==kecheng_id).select(db.course.kejian)
     lianxi_url=A('练习',_href=URL('lianxi/%s'%keshi_id))
     if haszuoye:
         zuoye_url=A('作业',_href=URL('zuoye/%s'%keshi_id))
@@ -62,7 +64,7 @@ def study():
         zuoye_url=BR()
     defen_url=A('得分',_href=URL('defen/%s'%keshi_id))
     return dict(keshi_id=keshi_id,lianxi_url=lianxi_url,zuoye_url=zuoye_url,defen_url=defen_url,
-               title=title,neirong=neirong,kejian=kejian,a=a)
+               title=title,neirong=neirong,kejian=kejian,rows=rows)
 
 @auth.requires_login()  
 def defen():
@@ -152,6 +154,9 @@ def download():
     allows downloading of uploaded files
     http://..../[app]/default/download/[filename]
     """
+    response.headers['Pragma']="private"
+    response.headers['Cache-Control']="private, must-revalidate"
+
     return response.download(request, db)
 
 def call():

@@ -31,8 +31,18 @@ response.menu = [
 if auth.has_membership(role='teacher'):
     response.menu = [ 
         (T('Home'), False, URL('teacher', 'index'), []),
-        ('初一',False,URL('teacher','grade1')),
-        ('初二',False,URL('teacher','grade2'))
+        ('初一',False,URL('teacher','grade1'),[
+                                                ('05',False,URL('teacher','grade1',args=['05'])),
+                                                ('06',False,URL('teacher','grade1',args=['06'])),
+                                                ('07',False,URL('teacher','grade1',args=['07'])),
+                                                ('08',False,URL('teacher','grade1',args=['08']))
+                                             ]),
+        ('初二',False,URL('teacher','grade2'),[
+                                                ('05',False,URL('teacher','grade2',args=['05'])),
+                                                ('06',False,URL('teacher','grade2',args=['06'])),
+                                                ('07',False,URL('teacher','grade2',args=['07'])),
+                                                ('08',False,URL('teacher','grade2',args=['08']))
+                                             ])
 ]   
 
 DEVELOPMENT_MENU = False

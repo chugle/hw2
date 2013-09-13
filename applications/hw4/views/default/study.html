@@ -4,7 +4,9 @@
 <h3>{{=title}}</h3>
 <p>{{=XML(neirong)}}</p>
 
-<li>{{=a}}</li>
+
+{{=SQLTABLE(rows,upload=URL('download'),headers={'course.kejian':'课件下载：'})}}
+
 <br>
 <hr>
 {{=lianxi_url}}
