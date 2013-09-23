@@ -76,7 +76,8 @@ def defen():
                                                                        db.timu.daan,orderby=db.lianxi.bianhao,
                                                                        join=db.lianxi.on(
                                                                                          (db.lianxi.timu==db.timu.id)&
-                                                                                         (db.zuoti.lianxi==db.lianxi.id))
+                                                                                         (db.zuoti.lianxi==db.lianxi.id)),
+																		
                                                                        )
     
     n=0;   right=0; cj=0

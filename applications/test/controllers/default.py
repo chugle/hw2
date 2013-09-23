@@ -20,12 +20,23 @@ def index():
     """
     return dict()
 
+
 def upload_json():
-    path=os.path.join(request.folder,'static','images','img.jpg')
-    f=open(path,'wb')
-  #  f.write(request.vars['imageFile'])
-    f.close()
-    return dict(request=request)
+    path=os.path.join(request.folder,'static','images')
+    f=request.vars['imgFile']
+    if hasattr(f, 'file'):
+        (source_file, original_filename) = (f.file, f.filename)
+    elif isinstance(f, (str, unicode)):
+        ### do not know why this happens, it should not
+        (source_file, original_filename) = \
+            (cStringIO.StringIO(f), 'file.txt')
+    id=db.title.insert(weizhi=db.title.weizhi.store(source_file, original_filename))
+    #newfilename = field.store(source_file, original_filename,
+    #                         field.uploadfolder)
+    # this line was for backward compatibility but problematic
+    # self.vars['%s_newfilename' % fieldname] = newfilename
+    url='http://localhost:8000/test/static/images/'+str(db.title[id].weizhi)
+    return dict(url=url,error=0)
 
 def file_manager_json():
     return dect(request=request)

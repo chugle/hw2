@@ -85,7 +85,7 @@ import os
 table=db.define_table('title',
                       Field('name'),
                       Field('weizhi','upload',
-                            uploadfolder=os.path.join(request.folder,'static/images')
+                            uploadfolder=os.path.join(request.folder,'static\images')
                             ),
                       autodelete=True
                       )

@@ -30,7 +30,8 @@ def course_manage():
 def keshi_manage():
     form = SQLFORM.smartgrid(db.keshi,
                              constraints={'keshi':(db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)},
-                             links=[dict(header='',body=lambda row:A('批改作业',_href=URL('pigai',args=row.id)))])
+                             links=[dict(header='',body=lambda row:A('批改作业',_href=URL('pigai',args=row.id))),
+                                    dict(header='',body=lambda row:A('添加练习',_href=URL('addwenti',args=row.id)))])
     return dict(form=form)   
 
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
@@ -78,12 +79,6 @@ def pigai():
     else:
         return dict(error=H3('没有可以批改的作业'))
 
-@auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
-def grade1():
-    rows=db((db.keshi.xuenian==xuenian)&(db.keshi.xueqi==xueqi)&(db.keshi.nianji==1)).select(
-                                                                                          orderby=db.keshi.keshi,
-                                                                                          left=db.keshi.on(db.keshi.kecheng==db.course.id))
-    return dict(rows=rows)
     
 
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
@@ -136,6 +131,26 @@ def homeworks1():
                                     db.zuoye.ALL,left=db.zuoye.on((db.auth_user.id==db.zuoye.zuozhe)&(db.zuoye.keshi==keshi_id)),
                                     orderby=db.auth_user.last_name)
     return dict(rows=rows,banji=banji)
+
+
+def addwenti():
+    keshi_id=request.args[0]
+    keshi=db.keshi[keshi_id]
+    course=keshi.kecheng
+    timus=db(db.timu.course==course).select()
+    for timu in timus:
+        db.lianxi.update_or_insert(
+                                   (db.lianxi.keshi==keshi_id)&
+                                   (db.lianxi.timu==timu),
+                                   keshi=keshi_id,
+                                   timu=timu
+                                   )
+    lianxis=db(db.lianxi.keshi==keshi_id).select()
+    return dict(timus=timus,lianxis=lianxis)
+    
+    
+
+
 '''
 grade1,grade2，连接每个课程学习模块，学习模块里面有练习讲解，作业情况统计（交作业统计，得分统计）
 用ajax实现统计和讲解部分显示答案

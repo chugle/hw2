@@ -95,6 +95,7 @@
 'Errors': 'Errors',
 'export as csv file': '以逗號分隔檔(csv)格式匯出',
 'FAQ': 'FAQ',
+'file': 'file',
 'First name': '名',
 'Forgot username?': 'Forgot username?',
 'Forms and Validators': 'Forms and Validators',
