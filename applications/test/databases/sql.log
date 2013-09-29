@@ -60,3 +60,9 @@ CREATE TABLE title(
     weizhi CHAR(512)
 );
 success!
+timestamp: 2013-09-28T10:13:04.987000
+CREATE TABLE content(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    html TEXT
+);
+success!

@@ -196,6 +196,7 @@
 'Stylesheet': '網頁風格檔',
 'submit': 'submit',
 'Submit': '傳送',
+'Success!': 'Success!',
 'Support': 'Support',
 'Sure you want to delete this object?': '確定要刪除此物件?',
 'Table': '資料表',

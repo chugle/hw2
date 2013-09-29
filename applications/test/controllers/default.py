@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # this file is released under public domain and you can use without limitations
+from html import FORM, TEXTAREA
+from http import redirect
 
 #########################################################################
 ## This is a samples controller
@@ -18,7 +20,18 @@ def index():
     if you need a simple wiki simple replace the two lines below with:
     return auth.wiki()
     """
-    return dict()
+    row=db(content.html).select().last()
+    form=FORM('html',TEXTAREA(row.html,_id="textarea_id",_name="content" ,_style="width:700px;height:300px;"),
+              INPUT(_type='submit'),
+              next=URL('default','index'))
+    if form.process().accepted:
+        session.flash = form.vars
+        content.insert(html= form.vars['content'])
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill the form'
+    return dict(form=form,req=form.vars)
 
 
 def upload_json():

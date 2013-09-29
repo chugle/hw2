@@ -11,7 +11,7 @@
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
+    db = DAL('sqlite://storage.sqlite',pool_size=1)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore')
@@ -86,6 +86,9 @@ table=db.define_table('title',
                       Field('name'),
                       Field('weizhi','upload',
                             uploadfolder=os.path.join(request.folder,'static\images')
-                            ),
-                      autodelete=True
+                            )
                       )
+
+content=db.define_table('content',
+                        Field('html','text'))
+
