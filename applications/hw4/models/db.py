@@ -150,3 +150,10 @@ db.define_table('wangpan',
 db.define_table('defen',Field('keshi',db.keshi,label='课时'),
                 Field('xuesheng',db.auth_user,label='学生'),
                 Field('chengji'),label='成绩')
+
+db.define_table('title',
+                      Field('name'),
+                      Field('weizhi','upload',
+                            uploadfolder=os.path.join(request.folder,'static\images')
+                            )
+                      )

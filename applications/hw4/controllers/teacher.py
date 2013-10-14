@@ -23,7 +23,8 @@ def student_manage():
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
 
 def course_manage():
-    form = SQLFORM.smartgrid(db.course)
+    form = SQLFORM.smartgrid(db.course,
+            links=[dict(header='',body=lambda row:A('图文编辑',_href=URL('course_edit',args=row.id)))])
     return dict(form=form)
 
 @auth.requires(request.client=='127.0.0.1' or auth.has_membership(role='teacher') , requires_login=False)
@@ -148,16 +149,44 @@ def addwenti():
     lianxis=db(db.lianxi.keshi==keshi_id).select()
     return dict(timus=timus,lianxis=lianxis)
     
-    
-
-
-'''
-grade1,grade2，连接每个课程学习模块，学习模块里面有练习讲解，作业情况统计（交作业统计，得分统计）
-用ajax实现统计和讲解部分显示答案
-'''  
+     
 def download():
     """
     allows downloading of uploaded files
     http://..../[app]/default/download/[filename]
     """
     return response.download(request, db)
+
+def upload_json():
+    path=os.path.join(request.folder,'static','images')
+    f=request.vars['imgFile']
+    if hasattr(f, 'file'):
+        (source_file, original_filename) = (f.file, f.filename)
+    elif isinstance(f, (str, unicode)):
+        ### do not know why this happens, it should not
+        (source_file, original_filename) = \
+            (cStringIO.StringIO(f), 'file.txt')
+    id=db.title.insert(weizhi=db.title.weizhi.store(source_file, original_filename))
+    #newfilename = field.store(source_file, original_filename,
+    #                         field.uploadfolder)
+    # this line was for backward compatibility but problematic
+    # self.vars['%s_newfilename' % fieldname] = newfilename
+    url='http://'+request.env.http_host+'/'+request.application+'/static/images/'+str(db.title[id].weizhi)
+    print url
+    return dict(url=url,error=0)
+
+def course_edit():
+    course_id=request.args[0]
+    row=db.course[course_id]
+    form=FORM('edit',TEXTAREA(row.neirong,_id="textarea_id",_name="content" ,_style="width:700px;height:300px;"),
+              INPUT(_type='submit'),
+              next=URL('teacher','course_manage'))
+    if form.process().accepted:
+        response.write(form.vars)
+        row.update_record(neirong= form.vars['content'])
+        redirect(URL('teacher','course_manage'))
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill the form'
+    return dict(form=form,req=form.vars)

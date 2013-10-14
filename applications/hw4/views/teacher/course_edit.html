@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+{{block head}}
+<script charset="utf-8" src={{=URL('static','editor/kindeditor.js')}}></script>
+<script charset="utf-8" src={{=URL('static','editor/lang/zh_CN.js')}}></script>
+<script>
+	KindEditor.ready(function(K) {
+
+	var options = {
+		cssPath : '/css/index.css',
+		filterMode : true,
+		uploadJson : '/hw4/teacher/upload_json.json',
+		allowFileManager : false
+	};
+	var editor = K.create('textarea[name="content"]', options); 
+		
+		
+	});
+
+</script>
+{{end}}
+{{=BEAUTIFY(response._vars)}}
