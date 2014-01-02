@@ -1,4 +1,14 @@
 # coding: utf8
+if False:
+    from gluon import *
+    request = current.request
+    response = current.response
+    session = current.session
+    cache = current.cache
+    T = current.T
+    from gluon import *
+    from db import *  #repeat for all models
+    from menu import *
 # 尝试
 import datetime
 now=datetime.date.today()
@@ -6,6 +16,9 @@ year=now.year
 month=now.month
 if int(month) in range(2,8):
     xueqi=2
+    xuenian=str(int(year)-1-2000)
+elif int(month)==1:
+    xueqi=1
     xuenian=str(int(year)-1-2000)
 else:
     xueqi=1
@@ -103,7 +116,7 @@ def grade1():
 
 def homeworks2():
     keshi_id=request.args[0]
-    if month in range(2,8):
+    if month in range(1,8):
         jie2=int(year)+1-2000
     else:
         jie2=int(year)+2-2000
@@ -116,10 +129,48 @@ def homeworks2():
                                     db.zuoye.ALL,left=db.zuoye.on((db.auth_user.id==db.zuoye.zuozhe)&(db.zuoye.keshi==keshi_id)),
                                     orderby=db.auth_user.last_name)
     return dict(rows=rows,banji=banji)
- 
+
+def homeworksterm2():
+    if month in range(1,8):
+        jie2=int(year)+1-2000
+    else:
+        jie2=int(year)+2-2000
+    
+    rows=db((db.zuoye.keshi==db.keshi.id)& (db.zuoye.zuozhe==db.auth_user.id)& (db.keshi.xuenian==xuenian) & (db.keshi.xueqi==xueqi)&
+                (db.auth_user.jie==jie2)).select(
+                                    db.auth_user.banji,
+                                    db.auth_user.last_name,
+                                    db.auth_user.first_name,
+                                    db.keshi.kecheng,
+                                    db.zuoye.keshi,
+                                    db.zuoye.wenjian,
+                                    db.zuoye.defen,
+                                    orderby=db.auth_user.banji|db.auth_user.last_name)
+    return dict(rows=rows)
+
+def homeworksterm1():
+    if month in range(1,8):
+        jie1=int(year)+2-2000
+    else:
+        jie1=int(year)+3-2000
+
+    
+    rows=db((db.zuoye.keshi==db.keshi.id)& (db.zuoye.zuozhe==db.auth_user.id)& (db.keshi.xuenian==xuenian) & (db.keshi.xueqi==xueqi)&
+                (db.auth_user.jie==jie1)).select(
+                                    db.auth_user.banji,
+                                    db.auth_user.last_name,
+                                    db.auth_user.first_name,
+                                    db.keshi.kecheng,
+                                    db.zuoye.keshi,
+                                    db.zuoye.wenjian,
+                                    db.zuoye.defen,
+                                    orderby=db.auth_user.banji|db.auth_user.last_name)
+    return dict(rows=rows)
+
+
 def homeworks1():
     keshi_id=request.args[0]
-    if month in range(2,8):
+    if month in range(1,8):
         jie1=int(year)+2-2000
     else:
         jie1=int(year)+3-2000

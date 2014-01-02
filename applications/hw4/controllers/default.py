@@ -8,7 +8,16 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 ## - call exposes all registered services (none by default)
 #########################################################################
-
+if False:
+    from gluon import *
+    request = current.request
+    response = current.response
+    session = current.session
+    cache = current.cache
+    T = current.T
+    from gluon import *
+    from db import *  #repeat for all models
+    from menu import *
 from gluon.tools import Crud
 
 def index():
@@ -35,6 +44,9 @@ def course_list():
         nianji=int(y)-2000-int(jie)+3
 
         xuenian=str(int(y)-1-2000)
+    elif int(month)==1:
+        xueqi=1
+        xuenian=str(int(year)-1-2000)
     else:
         xueqi=1
         nianji=int(y)-2000-int(jie)+4
