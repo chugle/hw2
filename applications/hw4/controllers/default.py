@@ -46,7 +46,8 @@ def course_list():
         xuenian=str(int(y)-1-2000)
     elif int(month)==1:
         xueqi=1
-        xuenian=str(int(year)-1-2000)
+        xuenian=str(int(y)-1-2000)
+        nianji=int(y)-2000-int(jie)+3
     else:
         xueqi=1
         nianji=int(y)-2000-int(jie)+4
