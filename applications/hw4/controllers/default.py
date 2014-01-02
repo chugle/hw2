@@ -44,7 +44,7 @@ def course_list():
         nianji=int(y)-2000-int(jie)+3
 
         xuenian=str(int(y)-1-2000)
-    elif int(month)==1:
+    elif int(m)==1:
         xueqi=1
         xuenian=str(int(y)-1-2000)
         nianji=int(y)-2000-int(jie)+3
